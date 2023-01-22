@@ -1,6 +1,7 @@
 from machine import Pin, RTC
 from time import sleep_ms
 from k155id1 import Decoder, NixieDot
+
 SAVER_PERIOD = 2  # in minutes; default = 10
 SAVER_DELAY_TIME = 300  # in ms; default = 300
 SAVER_ITERATION_COUNT = 1
@@ -16,7 +17,7 @@ def main():
     hour2 = Decoder({'a0': Pin(16, Pin.OUT, Pin.PULL_DOWN), 'a1': Pin(17, Pin.OUT, Pin.PULL_DOWN), 'a2': Pin(26, Pin.OUT, Pin.PULL_DOWN), 'a3': Pin(27, Pin.OUT, Pin.PULL_DOWN)})
     min1 = Decoder({'a0': Pin(2, Pin.OUT, Pin.PULL_DOWN), 'a1': Pin(3, Pin.OUT, Pin.PULL_DOWN), 'a2': Pin(4, Pin.OUT, Pin.PULL_DOWN), 'a3': Pin(5, Pin.OUT, Pin.PULL_DOWN)})
     min2 = Decoder({'a0': Pin(6, Pin.OUT, Pin.PULL_DOWN), 'a1': Pin(7, Pin.OUT, Pin.PULL_DOWN), 'a2': Pin(8, Pin.OUT, Pin.PULL_DOWN), 'a3': Pin(9, Pin.OUT, Pin.PULL_DOWN)})
-    
+
     saver = NixieSaver([hour1, hour2, min1, min2])
     clock = Clock(hour1, hour2, min1, min2, saver)
     while True:
@@ -29,7 +30,7 @@ def main():
             print(f'MIN1 Time:{clock.ct}, current:{min1.current}')
             print(f'MIN2 Time:{clock.ct}, current:{min2.current}\n{"---"*3}')
             sleep_ms(1000)
-            
+
 
 class Clock:
     def __init__(self, hour1, hour2, minute1, minute2, saver, second1=None, second2=None):
@@ -57,7 +58,7 @@ class Clock:
         minute = 20
         second = 30
         return (year, month, day, weekday, hour, minute, second, 0)
-    
+
     def show_time(self):
         print(self.rtc.datetime())
         current_time = self.rtc.datetime()[4:]
